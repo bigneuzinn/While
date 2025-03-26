@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .login-attempts {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 20px;
+                margin: 0 15px;
+            }
+            
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Aula While - Sistema de Login</h1>
+        <div id="login-form">
+            <div class="input-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" placeholder="Digite seu usuário">
+            </div>
+            <div class="input-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha">
+            </div>
+            <button id="login-btn">Entrar</button>
+            <div id="error-message" class="error-message">Usuário/Senha incorretos! Tente novamente.</div>
+        </div>
+        <div class="login-attempts" id="attempts-counter"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.getElementById('login-btn');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.getElementById('error-message');
+            const attemptsCounter = document.getElementById('attempts-counter');
+            
+            let attempts = 0;
+
+            loginBtn.addEventListener('click', function() {
+                const usuario = usernameInput.value;
+                const senha = passwordInput.value;
+                attempts++;
+                attemptsCounter.textContent = `Tentativas: ${attempts}`;
+
+                if(usuario === "admin" && senha === "2025") {
+                    // Simula o redirecionamento após 1 segundo
+                    loginBtn.textContent = "Login bem-sucedido!";
+                    loginBtn.style.backgroundColor = "#2ecc71";
+                    setTimeout(function() {
+                        window.location.href = "/page.html";
+                    }, 1000);
+                } else {
+                    errorMessage.style.display = "block";
+                    usernameInput.style.borderColor = "#e74c3c";
+                    passwordInput.style.borderColor = "#e74c3c";
+                    
+                    // Limpa os campos após 1 segundo
+                    setTimeout(function() {
+                        usernameInput.value = "";
+                        passwordInput.value = "";
+                        usernameInput.focus();
+                    }, 1000);
+                }
+            });
+
+            // Permite submeter com Enter
+            passwordInput.addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') {
+                    loginBtn.click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
